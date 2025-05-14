@@ -1,0 +1,19 @@
+services:
+  watchdog:
+    container_name: dsl_watchdog
+    image: ghcr.io/artemis-mike/homeassistant-dsl-watchdog:latest
+    restart: always
+    environment:
+      WATCHDOG_LOGLEVEL: DEBUG
+      WATCHDOG_ERROR_THRESHOLD: 3
+      WATCHDOG_INTERVAL: 30
+      #WATCHDOG_COOLDOWN: 600
+      WATCHDOG_FORCE_INTERVAL: "True"
+      WATCHDOG_PING_TARGET: 1.1.1.1
+      WATCHDOG_HA_AUTOMATION_ID: ${WATCHDOG_HA_AUTOMATION_ID}
+      WATCHDOG_HA_INSTANCE: ${WATCHDOG_HA_INSTANCE}
+      WATCHDOG_HA_TOKEN: ${WATCHDOG_HA_TOKEN}
+    extra_hosts:  # Create hosts file entry because we can't resolve the WATCHDOG_HA_INSTANCE once we lose connection to the internet
+      #<the-FQDN-from-WATCHDOG_HA_INSTANCE>: ${WATCHDOG_HA_INSTANCE_IP}
+    healthcheck:
+      test: ["CMD", "./health-compose.sh"]

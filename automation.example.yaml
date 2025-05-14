@@ -1,0 +1,23 @@
+alias: Reset DSL
+description: >-
+  Switched the plug switch for the router off, waits 10s and switches it back on. This is needed, as homeassistant won't be available
+  when the router is off. The Zigbee network will stay available regardless.
+triggers: []
+conditions: []
+actions:
+  - action: switch.turn_off
+    metadata: {}
+    data: {}
+    target:
+      device_id: <your-device-id>
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 10
+      milliseconds: 0
+  - action: switch.turn_on
+    metadata: {}
+    data: {}
+    target:
+      device_id: <your-device-id>
+mode: single
