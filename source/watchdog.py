@@ -91,15 +91,17 @@ def main():
   if (checkSettings() != 0):
     logging.error("Failed settings check. Exit.")
     sys.exit(1)
-    
+
+  if  checkHaConnection(HA_INSTANCE, HA_TOKEN) != 200:
+    logging.error("Error reaching "+HA_INSTANCE+". Exiting.")
+    sys.exit(2)
+
   while(True):
     logging.info("Starting watchdog run.")
     f = open("./lastRun.epoch", "w")     # Relevant for health.sh / health-compose.sh
     f.write(str(round(datetime.now().timestamp())))
     f.close()
-    if checkHaConnection(HA_INSTANCE, HA_TOKEN) != 200:
-      logging.error("Error reaching "+HA_INSTANCE+". Exiting.")
-      sys.exit(2)
+
     response = pingTarget(PING_TARGET, PING_COUNT)
     replys = [resp for resp in response if "Reply from "+PING_TARGET in str(response)]
 
