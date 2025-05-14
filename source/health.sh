@@ -2,12 +2,12 @@
 
 export $(cat .env | xargs)
 
-if [ -z $WATCHDOG_INTERVAL ]; then 
-    WATCHDOG_INTERVAL=30
+if [ -z $WATCHDOG_COOLDOWN ]; then 
+    WATCHDOG_COOLDOWN=300
 fi
 
 SECONDS_SINCE_LAST_RUN=$(expr $(date +%s) - $(cat lastRun.epoch))
-THRESHOLD=$(expr $WATCHDOG_INTERVAL \* 2)
+THRESHOLD=$(expr $WATCHDOG_COOLDOWN \* 2)
 
 if [ "$SECONDS_SINCE_LAST_RUN" -lt "$THRESHOLD" ]; then 
     exit 0; 
