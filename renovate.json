@@ -6,6 +6,7 @@
   "packageRules": [
     {
       "automerge": true,
+      "matchUpdateTypes": ["major", "minor", "patch"],
       "matchPackageNames": [
         "docker/setup-qemu-action",
         "docker/setup-buildx-action",
